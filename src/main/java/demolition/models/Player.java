@@ -1,24 +1,33 @@
 package demolition.models;
 
-import demolition.drawables.BombGuy;
+import demolition.util.Direction;
 
 public class Player {
 
-    BombGuy.Direction direction;
+    Direction direction;
     boolean moving;
+    private boolean ishit;
+    private boolean place;
 
     public Player() {
         moving=false;
-        this.direction= BombGuy.Direction.DOWN;///DOWN is the default as specified
+        ishit=false;
+        this.direction= Direction.DOWN;///DOWN is the default as specified
     }
 
-    public BombGuy.Direction getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
-    public void setDirection(BombGuy.Direction direction) {
+    public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    public Bomb placeBomb( int gridx, int gridy){
+        return new Bomb(gridx,gridy);
+
+    }
+
 
     public boolean isMoving() {
         return moving;
@@ -34,5 +43,20 @@ public class Player {
                 "direction=" + direction +
                 ", moving=" + moving +
                 '}';
+    }
+
+    public void isHit(boolean b) {
+        this.ishit=b;
+    }
+
+    public boolean isHit() {
+        return this.ishit;
+    }
+
+    public void placeBomb(boolean b) {
+        this.place=b;
+    }
+    public boolean placedBomb(){
+        return this.place;
     }
 }

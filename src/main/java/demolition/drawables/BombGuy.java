@@ -1,9 +1,10 @@
 package demolition.drawables;
 
 import demolition.*;
+import demolition.util.Direction;
 import processing.core.PImage;
 
-public class BombGuy extends Living implements Drawable {
+public class BombGuy extends Living implements Drawable ,Bombable{
     private final App app;
 
     ///we dont maintain state from here bt in model in player
@@ -39,16 +40,28 @@ public class BombGuy extends Living implements Drawable {
             //animate
                 ///to which on callback ie animate for 2 secs before allowing nxt movt or sth  or no need to disallow
 
+
+            ///check collusion with enemy , animate, inform player
+            if(!this.level.checkEnemy(this) ){
+                ///game over
+                this.app.player.isHit(true);
+            }
+
+
+            ////check collusion with bomb , animate, inform player
+
+
             //stop
             this.app.player.setMoving(false);///movt signal recieved from evnt hndle
 
         }///else nothing
+        if(this.app.player.placedBomb()){
+            this.app.bomb=this.app.player.placeBomb(this.gridx, this.gridy);
+            this.app.player.placeBomb(false);//placed
+        }
         app.image(getImg(this.app.player.getDirection(),app), gridx*tilew, App.top_offset +gridy*tileh, tileh, tilew);
 
     }
-
-
-
 
     @Override
     public String toString() {
@@ -57,5 +70,10 @@ public class BombGuy extends Living implements Drawable {
                 ", gridx=" + gridx +
                 ", gridy=" + gridy +
                 '}';
+    }
+
+    @Override
+    public void getBombed() {
+        this.app.player.isHit(true);
     }
 }

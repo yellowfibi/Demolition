@@ -1,11 +1,9 @@
 package demolition;
 
-import demolition.drawables.BombGuy;
+import demolition.util.Direction;
 
 public class Living implements Collideable{
 
-
-    public enum Direction{UP, RIGHT,DOWN, LEFT}
 
     protected int gridx;
     protected int gridy;
@@ -29,20 +27,21 @@ public class Living implements Collideable{
     }
 
     @SuppressWarnings("PointlessArithmeticExpression")
-    protected void move(Direction state){
+    protected boolean move(Direction state){
         ///move with screen limits and ofset by the wall around*?? nono we may have open ends
         ///this is for the simple reason just incase open ended or not guarded at ends with no walls
         ////we still should nto go out of screen in no what ground
 
-        System.out.println("before "+state);
-        System.out.println(this);
+//        System.out.println("before "+state);
+//        System.out.println(this);
         switch (state) {
             case UP:
                 if(this.gridy>0){//+1
                     this.gridy--;
                     if(!this.level.moveValid(this)){
                         this.gridy++;///revert
-                        System.out.println(" move not valid, wall ahead ");
+//                        System.out.println(" move not valid, wall ahead ");
+                        return false;
                     }
                 }else System.out.println("upper screen limit reached");
                 break;
@@ -51,7 +50,8 @@ public class Living implements Collideable{
                     this.gridx++;
                     if(!this.level.moveValid(this)){
                         this.gridx--;///revert
-                        System.out.println(" move not valid, wall ahead ");
+//                        System.out.println(" move not valid, wall ahead ");
+                        return false;
                     }
                 }else System.out.println("right screen limit reached");
                 break;
@@ -60,7 +60,8 @@ public class Living implements Collideable{
                     this.gridx--;
                     if(!this.level.moveValid(this)){
                         this.gridx++;///revert
-                        System.out.println(" move not valid, wall ahead ");
+//                        System.out.println(" move not valid, wall ahead ");
+                        return false;
                     }
                 }else System.out.println("left screen limit reached");
                 break;
@@ -70,12 +71,14 @@ public class Living implements Collideable{
                     this.gridy++;
                     if(!this.level.moveValid(this)){
                         this.gridy--;///revert
-                        System.out.println(" move not valid, wall ahead ");
+//                        System.out.println(" move not valid, wall ahead ");
+                        return false;
                     }
                 }else System.out.println("lower screen limit reached");
                 break;
         }
-        System.out.println("after "+state);
-        System.out.println(this);
+//        System.out.println("after "+state);
+//        System.out.println(this);
+        return true;
     }
 }
