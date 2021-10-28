@@ -1,13 +1,15 @@
 package demolition.drawables;
 
 import demolition.App;
+import demolition.Collideable;
 import demolition.Drawable;
 
-public class Wall implements Drawable {
+public class Wall implements Drawable , Collideable {
     private final App app;
     int gridx;
     int gridy;
     WallType type;
+
 
 
     public enum WallType{ SOLID, BROKEN}
@@ -27,4 +29,25 @@ public class Wall implements Drawable {
 
     }
 
+
+
+    @Override
+    public int getGridy() {
+        return this.gridy;
+    }
+
+    @Override
+    public int getGridx() {
+        return this.gridx;
+    }
+
+    @Override
+    public String toString() {
+        return "Wall{" +
+                "app=" + app +
+                ", gridx=" + gridx +
+                ", gridy=" + gridy +
+                ", type=" + type +
+                '}';
+    }
 }

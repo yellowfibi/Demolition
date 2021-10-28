@@ -1,6 +1,5 @@
 package demolition;
 
-import demolition.drawables.Level;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
 

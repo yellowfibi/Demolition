@@ -1,9 +1,10 @@
 package demolition.drawables;
 
 import demolition.App;
+import demolition.Collideable;
 import demolition.Drawable;
 
-public class Ground implements Drawable {
+public class Ground implements Drawable, Collideable {
 
     private final App app;
     private final int gridx;
@@ -25,6 +26,19 @@ public class Ground implements Drawable {
     public void draw() {
         app.image((this.type== GroundType.PATH?app.ground_path :app.ground_goal), gridx*tilew, App.top_offset +gridy*tileh, tileh,tilew);
 
+    }
+
+
+    ////TODO COLIDABLE IS NEEDED FOR THE GOAL STATE
+
+    @Override
+    public int getGridy() {
+        return this.gridy;
+    }
+
+    @Override
+    public int getGridx() {
+        return this.gridx;
     }
 
 }

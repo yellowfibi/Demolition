@@ -1,18 +1,20 @@
 package demolition.models;
 
+import demolition.Living;
 import demolition.drawables.BombGuy;
+import demolition.drawables.EnemyGuy;
 
-public class Player {
+public class Enemy {
 
-    BombGuy.Direction direction;
+    Living.Direction direction;
     boolean moving;
 
-    public Player() {
+    public Enemy() {
         moving=false;
-        this.direction= BombGuy.Direction.DOWN;///DOWN is the default as specified
+        this.direction= Living.Direction.RIGHT;///DOWN is the default as specified
     }
 
-    public BombGuy.Direction getDirection() {
+    public Living.Direction getDirection() {
         return direction;
     }
 
@@ -30,7 +32,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
+        return "Enemy{" +
                 "direction=" + direction +
                 ", moving=" + moving +
                 '}';

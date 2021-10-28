@@ -1,7 +1,7 @@
 package demolition;
 
 import demolition.drawables.BombGuy;
-import demolition.drawables.Level;
+import demolition.models.Enemy;
 import demolition.models.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -19,6 +19,9 @@ public class App extends PApplet {
     public static final int WIDTH = 480;
     public static final int HEIGHT = 480;
     public static final int top_offset=64;
+
+    public static int gridw=15;
+    public static int gridh=13;
 
 
     public static final int FPS = 60;
@@ -56,6 +59,12 @@ public class App extends PApplet {
     public int lives;
     public int timer;
     public Player player;
+    public Enemy red_enemy;
+    public Enemy yellow_enemy;
+    private int savedTime;
+    int enemy_movt_interval = 1000;
+    ////enemies creted by their attribute/type  and not individual so incase of multiple occurence they will be
+    ///controlled same way their states only differentiated by their initial conditions and not individual state control
 
 
     public App() {
@@ -121,11 +130,15 @@ public class App extends PApplet {
 
         ///initialize game state
         this.player=new Player();
+        this.yellow_enemy=new Enemy();
+        this.red_enemy=new Enemy();
         this.currentlevel=0;
 
         ///initialize game
         this.levels[currentlevel].initLevel();
 
+
+        savedTime= millis();//current time
 
 
     }
@@ -140,12 +153,29 @@ public class App extends PApplet {
         UI time = new UI(this, 8, 0, UI.UIWidget.TIMER);
         time.draw();
 
+        ///perform movements
+        autoMovements();
+
         //draw levels
         this.levels[currentlevel].drawLevel();
 
 
 
+
     }
+
+    private void autoMovements(){//analogous of keypressed
+        int passedTime = millis() - savedTime;
+        if (passedTime > enemy_movt_interval) {
+//            System.out.println("moving "+savedTime);
+            this.red_enemy.setMoving(true);
+            this.red_enemy.setDirection(red_enemy.getDirection());
+//            this.yellow_enemy.setMoving(true);
+//            this.yellow_enemy.setDirection(yellow_enemy.getDirection());
+            savedTime = millis();
+        }
+    }
+
 
     //interations
     public void  keyPressed() {
