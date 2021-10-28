@@ -23,7 +23,7 @@ public class Ground implements Drawable {
     }
     @Override
     public void draw() {
-        app.image((this.type== GroundType.PATH?app.ground_path :app.ground_goal), gridx*tilew, gridy*tileh, tileh,tilew);
+        app.image((this.type== GroundType.PATH?app.ground_path :app.ground_goal), gridx*tilew, App.top_offset +gridy*tileh, tileh,tilew);
 
     }
 

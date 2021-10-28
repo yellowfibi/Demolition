@@ -23,17 +23,8 @@ public class Wall implements Drawable {
 
     @Override
     public void draw(){
-        app.image((this.type==WallType.SOLID?app.wall_solid :app.wall_broken),  gridx*tilew, gridy*tileh, tileh,tilew);
+        app.image((this.type==WallType.SOLID?app.wall_solid :app.wall_broken),  gridx*tilew, App.top_offset +gridy*tileh, tileh,tilew);
 
     }
 
-    @Override
-    public String toString() {
-        return "Wall{" +
-                "app=" + app +
-                ", gridx=" + gridx +
-                ", gridy=" + gridy +
-                ", type=" + type +
-                '}';
-    }
 }
