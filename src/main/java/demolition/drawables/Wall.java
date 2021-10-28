@@ -12,8 +12,8 @@ public class Wall implements Drawable , Collideable, Bombable {
     @Override
     public void getBombed() {
         if ( this.type==WallType.BROKEN){
-            this.level.breakWall(this);///special occasion to update drive direct without model's backing
-            ////ahaa so this hapens too so dont limit my frmamework ahaa seen it now go tit
+            this.level.breakWall(this);
+            
         }else System.out.println(" unbreakable ");
 
     }
@@ -26,7 +26,7 @@ public class Wall implements Drawable , Collideable, Bombable {
         this.gridx = gridx;
         this.gridy = gridy;
         this.type = type;
-//        System.out.println(" creating  "+this);
+
 
         this.level = level;
     }

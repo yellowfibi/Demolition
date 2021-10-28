@@ -9,7 +9,7 @@ public class Enemy implements Drawable {
     private final int gridx;
     private final int gridy;
     private final EnemyType type;
-    ///bombguy state
+    
     private  Direction direction;
 
     public enum EnemyType {RED_ENEMY, YELLOW_ENEMY}
@@ -19,11 +19,11 @@ public class Enemy implements Drawable {
         this.gridx = gridx;
         this.gridy = gridy;
         this.type = type;
-        this.direction= Direction.DOWN;///DOWN is the default as specified
+        this.direction= Direction.DOWN;
     }
 
     private static PImage getImg(Direction state, EnemyType playertype, App app){
-        //noinspection EnhancedSwitchMigration
+        
         switch (state) {
             case UP:
                 return playertype== EnemyType.RED_ENEMY ?app.red_enemy_up:app.yellow_enemy_up;

@@ -35,11 +35,11 @@ public class Level  {
     }
 
     private void updateLevel(){
-        ////update for bomb and similarly for enemies too
+        
 
         if(this.app.bomb!=null){
             this.drawables.add(new BombThing( app , this));
-        }else{///immediately nulled also remove from drawable
+        }else{
             this.drawables.removeIf(new Predicate<Drawable>() {
                 @Override
                 public boolean test(Drawable drawable) {
@@ -48,7 +48,7 @@ public class Level  {
             });
         }
 
-        if (this.app.red_enemy == null) {///immediately nulled also remove from drawable
+        if (this.app.red_enemy == null) {
             this.drawables.removeIf(new Predicate<Drawable>() {
                 @Override
                 public boolean test(Drawable drawable) {
@@ -57,7 +57,7 @@ public class Level  {
             });
         }
 
-        if (this.app.yellow_enemy == null) {///immediately nulled also remove from drawable
+        if (this.app.yellow_enemy == null) {
             this.drawables.removeIf(new Predicate<Drawable>() {
                 @Override
                 public boolean test(Drawable drawable) {
@@ -69,41 +69,41 @@ public class Level  {
     }
 
     public void drawLevel(){
-        updateLevel();///update from app ie front for side created things tho no commiting to same back
-        for(Drawable item:drawables){///main task
-            item.draw();///nice adv of polymorph now
+        updateLevel();
+        for(Drawable item:drawables){
+            item.draw();
         }
         postupdateLevel();
-        ///perform any post draw updates eg caused by bomb or sth
+        
     }
 
     private void postupdateLevel() {
         this.drawables.removeAll(this.toremove);
-        ///however for places where ground was readd???
-        /////nonno this groudn thign is becoming a nuisance ithink i need to carpet ground all through
-        ////////before laying down any other thing atop ahaaa so no dispearnce or sth
+        
+        
+        
         toremove.clear();
     }
 
-    public void initLevel(){///parse and draw
+    public void initLevel(){
         this.drawables=new ArrayList<>();
         Scanner sc;
         sc = new Scanner(this.map);
         int countery=0;
         while (sc.hasNextLine()){
 
-            //System.out.println(sc.nextLine());
+            
             String s = sc.nextLine();
             char[] chars = s.toCharArray();
             Drawable item;
             for (int i = 0; i < chars.length; i++) {
-                ///carpet with ground first
+                
                 this.drawables.add(new Ground(this.app, i, countery, Ground.GroundType.PATH, this));
-                ///then draw
+                
                 char xter = chars[i];
-                //noinspection EnhancedSwitchMigration
+                
                 switch (xter) {
-                    ////level
+                    
                     case 'W':
                         item = new Wall(this.app, i, countery, Wall.WallType.SOLID, this);
                         break;
@@ -111,13 +111,13 @@ public class Level  {
                         item = new Wall(this.app, i, countery, Wall.WallType.BROKEN, this);
                         break;
                     case ' ':
-                        //noinspection DuplicateBranchesInSwitch
+                        
                         item = new Ground(this.app, i, countery, Ground.GroundType.PATH, this);
                         break;
                     case 'G':
                         item = new Ground(this.app, i, countery, Ground.GroundType.GOAL, this);
                         break;
-                    ////livings
+                    
                     case 'P':
                         item = new BombGuy(this.app, i, countery, this );
                         break;
@@ -127,18 +127,18 @@ public class Level  {
                     case 'Y':
                         item = new EnemyGuy(this.app, i, countery, EnemyGuy.EnemyType.YELLOW_ENEMY, this);
                         break;
-                    //the default is the empty tile
+                    
                     default:
                         item = new Ground(this.app, i, countery, Ground.GroundType.PATH, this);
                 }
                 this.drawables.add(item);
-                ///place ground for livables too
+                
 
             }
             countery++;
         }
-        ///however this leaves the rendering in order of reading data while we may want to control the layering instead
-        /////hence we need to sort the list after initialization
+        
+        
         this.drawables.sort(new DrawableComparator());
 
 
@@ -154,30 +154,30 @@ public class Level  {
 
 
     public boolean moveValid(Collideable mover) {
-        ///only cares about walls though for now nd coliding with livings as th only movers
-        ////we still use the polymorph of colidable though for reusablity
+        
+        
         for(Drawable item:drawables){
             if(item instanceof  Wall) {
-                //System.out.println("checking colusion "+item);
+                
                 if(((Collideable) item).detectCollusion(mover)) {
-//                    System.out.println(">>colliding with "+item);
+
                     return false;
-                }///nice adv of polymorph now
+                }
             }
         }
         return true;
     }
 
     public boolean bombAffects(Collideable mover) {
-        ///only cares about walls though for now nd coliding with livings as th only movers
-        ////we still use the polymorph of colidable though for reusablity
+        
+        
         for(Drawable item:drawables){
             if(item instanceof  Wall && ((Wall)item).getType()== Wall.WallType.SOLID) {
-                //System.out.println("checking colusion "+item);
+                
                 if(((Collideable) item).detectCollusion(mover)) {
-//                    System.out.println(">>colliding with "+item);
+
                     return false;
-                }///nice adv of polymorph now
+                }
             }
         }
         return true;
@@ -186,21 +186,21 @@ public class Level  {
         if(living instanceof BombGuy){
             for(Drawable item:drawables){
                 if(item instanceof  EnemyGuy) {
-                    //System.out.println("checking colusion "+item);
+                    
                     if(((Collideable) item).detectCollusion(living)) {
                         System.out.println(">>colliding with "+item);
                         return false;
-                    }///nice adv of polymorph now
+                    }
                 }
             }
         }else if(living instanceof EnemyGuy){
             for(Drawable item:drawables){
                 if(item instanceof  BombGuy) {
-                    //System.out.println("checking colusion "+item);
+                    
                     if(((Collideable) item).detectCollusion(living)) {
                         System.out.println(">>colliding with "+item);
                         return false;
-                    }///nice adv of polymorph now
+                    }
                 }
             }
         }
@@ -213,13 +213,13 @@ public class Level  {
             if(
                     item instanceof  EnemyGuy ||
                     item instanceof  BombGuy ||
-                    (item instanceof  Wall  ) ///&& ((Wall)item).getType() == Wall.WallType.BROKEN i dont think we should engage ourselves with knowing wall behavior instead have it there instead
+                    (item instanceof  Wall  ) 
             ) {
-                //System.out.println("checking colusion "+item);
+                
                 if(((Collideable) item).detectCollusion(bomb)) {
                     System.out.println(">>colliding with "+item);
                     items.add((Bombable) item);
-                }///nice adv of polymorph now
+                }
             }
         }
         return items;
@@ -230,14 +230,14 @@ public class Level  {
     }
 
     public boolean checkPlayer(Ground goal) {
-//        System.out.println(" goal "+goal);
+
         for(Drawable item:drawables){
             if(item instanceof  BombGuy) {
-                //System.out.println("checking colusion "+item);
+                
                 if(((Collideable) item).detectCollusion(goal)) {
                     System.out.println(">>goal reached "+item);
                     return false;
-                }///nice adv of polymorph now
+                }
             }
         }
         return true;

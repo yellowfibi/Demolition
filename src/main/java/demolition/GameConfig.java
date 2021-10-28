@@ -5,20 +5,7 @@ import processing.data.JSONObject;
 
 /**
  * class for deserializing config json
- *
- //    {
- //        "levels": [
- //        {
- //            "path": "level1.txt",
- //                "time": 180
- //        },
- //        {
- //            "path": "level2.txt",
- //                "time": 180
- //        }
- //  ],
- //        "lives": 3
- //    }
+ * 
  */
 public class GameConfig {
 

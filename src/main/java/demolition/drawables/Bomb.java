@@ -5,17 +5,13 @@ import demolition.Collideable;
 import demolition.Drawable;
 import processing.core.PImage;
 
-public class Bomb implements Drawable , Collideable {
-    ///*important, a bomb is collidable but for different reasons as rest
-    ////here it will not prohibit movement however  it will cause death if bombguy or enemy(Livings) wch die.
-        //ase whn is bomb guy then it wl update layer as dead
-    // within range at detonation
+public class Bomb implements Drawable , Collideable { 
 
 
     private final App app;
     private final int gridx;
     private final int gridy;
-    ///bombguy state
+    
     private  BombState bombstate;
 
     public enum BombState{COUNTING, FIRING}
@@ -27,7 +23,7 @@ public class Bomb implements Drawable , Collideable {
     }
 
     private static PImage getImg(BombState state, App app){
-        //noinspection EnhancedSwitchMigration
+        
         switch (state) {
             case COUNTING:
             default:

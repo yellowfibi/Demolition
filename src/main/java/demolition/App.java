@@ -61,7 +61,7 @@ public class App extends PApplet {
 
     public PFont font;
 
-    ////game state
+    
     Level[] levels;
     private int currentlevel;
     public int lives=3;
@@ -80,8 +80,8 @@ public class App extends PApplet {
     private int decomposition_time=1000;
     private boolean restartable=false;
     private GameState state;
-    ////enemies creted by their attribute/type  and not individual so incase of multiple occurence they will be
-    ///controlled same way their states only differentiated by their initial conditions and not individual state control
+    
+    
 
 
     public App() {
@@ -95,14 +95,14 @@ public class App extends PApplet {
         frameRate(FPS);
 
 
-        //load config
+        
         JSONObject json= loadJSONObject("config.json");
-        //        System.out.println(json.toString());
+        
         GameConfig config;
         config=GameConfig.fromJSON(json, this);
 
 
-        // load level maps
+        
         levels = config.getLevels();
         for (int i = 0; i < levels.length; i++) {
             try {
@@ -112,10 +112,10 @@ public class App extends PApplet {
             }
         }
 
-        // load font
+        
         font = this.createFont("PressStart2P-Regular.ttf", 28);
 
-        // load assets
+        
         try {
             Class<? extends App> c =this.getClass();
             wall_solid = loadImage(new URI(Objects.requireNonNull(c.getResource("/wall/solid.png")).toString()).getPath() );
@@ -152,7 +152,7 @@ public class App extends PApplet {
     }
 
     private void init(){
-        ///initialize game state
+        
         this.state=GameState.RUNNING;
         this.player=new Player();
         this.yellow_enemy=new Enemy();
@@ -160,43 +160,43 @@ public class App extends PApplet {
         this.currentlevel=0;
         this.maxTime=this.levels[currentlevel].getTime();
 
-        ////init game time
+        
         this.timer =this.maxTime;
 
-        ///initialize game
+        
         this.levels[currentlevel].initLevel();
 
 
-        savedTime= millis();//current time
-        uiSavedTime= millis();//current time
+        savedTime= millis();
+        uiSavedTime= millis();
     }
 
     public void draw() {
-        //draw bg
+        
         background(unhex("fddd11"));
 
         if(this.state== GameState.RUNNING){
-            ///perform ui update
+            
             autoState();
 
-            //draw ui
+            
             UI life = new UI(this, 4, 0, UI.UIWidget.LIFE);
             life.draw();
             UI time = new UI(this, 8, 0, UI.UIWidget.TIMER);
             time.draw();
-            ///ui is a eg of drive  done from hardcode and not soft
+            
 
 
-            ///perform movements
+            
             boolean moved = autoMovements();
             boolean fired = autoDetonations();
 
-            //draw levels
+            
             this.levels[currentlevel].drawLevel();
 
 
-            //check game state
-            //////best to check after auto mvts not direct so not reupdate hit multipel tiems
+            
+            
             if(moved){
                 if(this.player.isHit() ){
                     System.out.println("player hit");
@@ -214,7 +214,7 @@ public class App extends PApplet {
             }
 
         }else if(this.state== GameState.OUT_OF_LIFE || this.state== GameState.OUT_OF_TIME){
-            ///now restarting game i supose press enter to play again
+            
             textSize(30);
             this.fill(0);
             textAlign(CENTER);
@@ -242,7 +242,7 @@ public class App extends PApplet {
 
     private void autoState() {
         int passedTime = millis() - uiSavedTime;
-        if (passedTime > 1000) {///move every second
+        if (passedTime > 1000) {
             this.timer--;
             uiSavedTime = millis();
         }
@@ -260,10 +260,10 @@ public class App extends PApplet {
     }
 
 
-    private boolean autoMovements(){//analogous of keypressed
+    private boolean autoMovements(){
         int passedTime = millis() - savedTime;
         if (passedTime > enemy_movt_interval) {
-//            System.out.println("moving "+savedTime);
+
             if(this.red_enemy!=null){
                 this.red_enemy.setMoving(true);
                 this.red_enemy.setDirection(red_enemy.getDirection());
@@ -278,19 +278,19 @@ public class App extends PApplet {
         }else return false;
     }
 
-    private boolean autoDetonations(){//analogous of keypressed
+    private boolean autoDetonations(){
         if(this.bomb!=null && bombTime==0)bombTime=millis();
 
-//        System.out.println(millis()+" bt "+this.bombTime);
+
         if(this.bomb!=null){
             int passedTime = millis() -  bombTime;
             if (passedTime > detonation_time) {
-                ///firing in progress
+                
                 if(!this.bomb.getFire()){
                     System.out.println(" triggering bomb");
-                    this.bomb.setFire(true);///using ths pattern evn though one time no param woudl still have done
+                    this.bomb.setFire(true);
                     if(this.bomb!=null && fireTime==0)this.fireTime= millis();
-                }else{///if already fired  check decomposition time
+                }else{
                     int elapsed = millis() -  fireTime;
                     if (elapsed > decomposition_time) {
                         this.bomb=null;
@@ -298,7 +298,7 @@ public class App extends PApplet {
                         fireTime=0;
                     }
                 }
-                return true;//firing done or in progress
+                return true;
             }else return false;
         }else return false;
     }
@@ -306,7 +306,7 @@ public class App extends PApplet {
 
 
 
-    //interations
+    
     @SuppressWarnings("ConstantConditions")
     public void  keyPressed() {
         if (key == CODED) {
@@ -322,11 +322,11 @@ public class App extends PApplet {
             }else if(keyCode== RIGHT){
                 this.player.setMoving(true);
                 this.player.setDirection(Direction.RIGHT);
-            }///else nothing
+            }
 
-        } else if (key == 32 || key == ' ') { ////space
+        } else if (key == 32 || key == ' ') { 
             if(this.bomb==null) this.player.placeBomb(true); else System.out.println(" there is still bomb existent ");
-        } else if (keyCode == ENTER || keyCode== RETURN) { //space
+        } else if (keyCode == ENTER || keyCode== RETURN) { 
             if(restartable)this.restartGame();else println("cannot restart game at this state");
         }else println("use w and s to move ship, and space to shoot");
 

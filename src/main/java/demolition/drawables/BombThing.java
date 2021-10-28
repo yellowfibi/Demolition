@@ -7,10 +7,7 @@ import processing.core.PImage;
 import java.util.List;
 
 public class BombThing implements Drawable , Collideable {
-    ///*important, a bomb is collidable but for different reasons as rest
-    ////here it will not prohibit movement however  it will cause death if bombguy or enemy(Livings) wch die.
-        //ase whn is bomb guy then it wl update layer as dead
-    // within range at detonation
+     
 
 
     private final App app;
@@ -19,22 +16,22 @@ public class BombThing implements Drawable , Collideable {
     private int gridx;
     private int gridy;
     private Level level;
-    ///bombguy state
+    
     private  BombState bombstate;
 
     public enum BombState{COUNTING, FIRING}
-    public BombThing(App app, Level level) {
+    public BombThing(App app, demolition.Level level2) {
         this.app = app;
         this.gridx=app.bomb.gridx;
         this.gridy=app.bomb.gridy;
         this.centerx=this.gridx;
         this.centery=this.gridy;
-        this.level = level;
+        this.level = level2;
         this.bombstate = BombState.COUNTING;
     }
 
     private static PImage getImg(Direction state, App app){
-        //noinspection EnhancedSwitchMigration
+        
         switch (state) {
             case RIGHT:
             case LEFT:
@@ -47,13 +44,13 @@ public class BombThing implements Drawable , Collideable {
     }
     @Override
     public void draw() {
-        ////todo also realized should only set one bomb at aa time
+        
         if(this.app.bomb.getFire()){
             this.bombstate=BombState.FIRING;
-            ///draw the center
+            
             app.image(this.app.bomb_explosion, centerx*tilew, App.top_offset +centery*tileh, tileh, tilew);
 
-            ///do the movements in each direction while checking collusion
+            
             int length = Direction.class.getEnumConstants().length;
             for (int i = 0; i < length; i++) {
 
@@ -62,7 +59,7 @@ public class BombThing implements Drawable , Collideable {
                 this.gridy=centery;
                 boolean bombedwall=false;
                 int counter=0;
-                while(this.spreadBomb(direction) && counter<2 && !bombedwall){///until we colide
+                while(this.spreadBomb(direction) && counter<2 && !bombedwall){
                     app.image(getImg(direction,app), gridx*tilew, App.top_offset +gridy*tileh, tileh, tilew);
                     List<Bombable> bombables = this.level.checkBombable(this);
                     if(!bombables.isEmpty()){
@@ -72,7 +69,7 @@ public class BombThing implements Drawable , Collideable {
                         }
                     }
                     counter++;
-                }////and added constrains to 2 spaces and also stop when bombedwall a thing
+                }
             }
 
         }else{
@@ -84,52 +81,52 @@ public class BombThing implements Drawable , Collideable {
 
 
     protected boolean spreadBomb(Direction state){
-        ///similar to move movement bt dont confuse here we wl check for colusion excempting brocken walls
+        
         switch (state) {
             case UP:
-                if(this.gridy>0){//+1
+                if(this.gridy>0){
                     this.gridy--;
                     if(!this.level.bombAffects(this)){
-                        this.gridy++;///revert
-//                        System.out.println(" move not valid, wall ahead ");
+                        this.gridy++;
+
                         return false;
                     }
                 }else System.out.println("upper screen limit reached");
                 break;
             case RIGHT:
-                if(this.gridx<App.gridw){//-1
+                if(this.gridx<App.gridw){
                     this.gridx++;
                     if(!this.level.bombAffects(this)){
-                        this.gridx--;///revert
-//                        System.out.println(" move not valid, wall ahead ");
+                        this.gridx--;
+
                         return false;
                     }
                 }else System.out.println("right screen limit reached");
                 break;
             case LEFT:
-                if(this.gridx>0){//+1
+                if(this.gridx>0){
                     this.gridx--;
                     if(!this.level.bombAffects(this)){
-                        this.gridx++;///revert
-//                        System.out.println(" move not valid, wall ahead ");
+                        this.gridx++;
+
                         return false;
                     }
                 }else System.out.println("left screen limit reached");
                 break;
             case DOWN:
             default:
-                if(this.gridy<App.gridh){//-1
+                if(this.gridy<App.gridh){
                     this.gridy++;
                     if(!this.level.bombAffects(this)){
-                        this.gridy--;///revert
-//                        System.out.println(" move not valid, wall ahead ");
+                        this.gridy--;
+
                         return false;
                     }
                 }else System.out.println("lower screen limit reached");
                 break;
         }
-//        System.out.println("after "+state);
-//        System.out.println(this);
+
+
         return true;
     }
 
